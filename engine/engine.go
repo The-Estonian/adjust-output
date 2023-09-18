@@ -43,13 +43,10 @@ func Start() {
 					}
 				}
 			} else {
-				// fmt.Println(os.Args[1][9:])
-
-				// helpers.GenerateFile((input, os.Args[1])[9:])
+				//
 				banner := standard.Standard(userInputString)
 				outputStr := CompileBannerString(banner)
 				helpers.GenerateFile(outputStr, os.Args[1][9:])
-
 			}
 		case "shadow":
 			shadow.Shadow(userInputString)

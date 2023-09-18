@@ -5,6 +5,7 @@ import (
 )
 
 func GenerateFile(inputString, filename string) {
+	
 	newFile, error := os.Create(filename)
 	if error != nil {
 		panic("Error creating file")

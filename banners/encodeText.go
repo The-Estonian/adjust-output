@@ -1,13 +1,12 @@
-package thinkertoy
+package banners
 
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
 )
 
-var thinkertoyDictionary = map[string]int{
+var encodeDictionary = map[string]int{
 	" ":  1,
 	"!":  10,
 	"\"": 19,
@@ -105,11 +104,8 @@ var thinkertoyDictionary = map[string]int{
 	"~":  847,
 }
 
-func Thinkertoy(input string) {
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	cmd.Run()
-	fileStream, err := os.ReadFile("thinkertoy/thinkertoy.txt")
+func EncodeText(input string, trigger string) []string {
+	fileStream, err := os.ReadFile("banners/" + trigger + ".txt")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -125,22 +121,15 @@ func Thinkertoy(input string) {
 	outputRow8 := ""
 
 	for i := 0; i < len(input); i++ {
-		outputRow1 += standardLetters[thinkertoyDictionary[string(input[i])]+0]
-		outputRow2 += standardLetters[thinkertoyDictionary[string(input[i])]+1]
-		outputRow3 += standardLetters[thinkertoyDictionary[string(input[i])]+2]
-		outputRow4 += standardLetters[thinkertoyDictionary[string(input[i])]+3]
-		outputRow5 += standardLetters[thinkertoyDictionary[string(input[i])]+4]
-		outputRow6 += standardLetters[thinkertoyDictionary[string(input[i])]+5]
-		outputRow7 += standardLetters[thinkertoyDictionary[string(input[i])]+6]
-		outputRow8 += standardLetters[thinkertoyDictionary[string(input[i])]+7]
+		outputRow1 += standardLetters[encodeDictionary[string(input[i])]+0]
+		outputRow2 += standardLetters[encodeDictionary[string(input[i])]+1]
+		outputRow3 += standardLetters[encodeDictionary[string(input[i])]+2]
+		outputRow4 += standardLetters[encodeDictionary[string(input[i])]+3]
+		outputRow5 += standardLetters[encodeDictionary[string(input[i])]+4]
+		outputRow6 += standardLetters[encodeDictionary[string(input[i])]+5]
+		outputRow7 += standardLetters[encodeDictionary[string(input[i])]+6]
+		outputRow8 += standardLetters[encodeDictionary[string(input[i])]+7]
 	}
-
-	fmt.Println(outputRow1)
-	fmt.Println(outputRow2)
-	fmt.Println(outputRow3)
-	fmt.Println(outputRow4)
-	fmt.Println(outputRow5)
-	fmt.Println(outputRow6)
-	fmt.Println(outputRow7)
-	fmt.Println(outputRow8)
+	output := []string{outputRow1, outputRow2, outputRow3, outputRow4, outputRow5, outputRow6, outputRow7, outputRow8}
+	return output
 }

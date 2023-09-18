@@ -4,11 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
-	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/shadow"
-	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/standard"
-	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/thinkertoy"
+	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/banners"
 )
 
 func Start() {
@@ -41,21 +38,21 @@ func Start() {
 				lines := strings.Split(userInputString, "\\n")
 				for _, line := range lines {
 					if line != "\\n" {
-						banner := standard.Standard(line)
+						banner := banners.EncodeText(line, "standard")
 						multilineBanner = append(multilineBanner, banner...)
 					}
 				}
 				outputStr = helpers.CompileBannerString(multilineBanner)
 			} else {
-				banner := standard.Standard(userInputString)
+				banner := banners.EncodeText(userInputString, "standard")
 				outputStr = helpers.CompileBannerString(banner)
 			}
 
 			helpers.GenerateFile(outputStr, os.Args[1][9:])
 		case "shadow":
-			shadow.Shadow(userInputString)
+			banners.EncodeText(userInputString, "shadow")
 		case "thinkertoy":
-			thinkertoy.Thinkertoy(userInputString)
+			banners.EncodeText(userInputString, "tinkertoy")
 		}
 		fmt.Println(userSelectedOption)
 	} else {

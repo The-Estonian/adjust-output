@@ -35,19 +35,23 @@ func Start() {
 
 		switch userSelectedBanner {
 		case "standard":
+			var outputStr string
+			var multilineBanner []string
 			if helpers.ContainsNewLine(userInputString) {
 				lines := strings.Split(userInputString, "\\n")
 				for _, line := range lines {
 					if line != "\\n" {
-						standard.Standard(line)
+						banner := standard.Standard(line)
+						multilineBanner = append(multilineBanner, banner...)
 					}
 				}
+				outputStr = CompileBannerString(multilineBanner)
 			} else {
-				//
 				banner := standard.Standard(userInputString)
-				outputStr := CompileBannerString(banner)
-				helpers.GenerateFile(outputStr, os.Args[1][9:])
+				outputStr = CompileBannerString(banner)
 			}
+
+			helpers.GenerateFile(outputStr, os.Args[1][9:])
 		case "shadow":
 			shadow.Shadow(userInputString)
 		case "thinkertoy":

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/shadow"
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/standard"
@@ -42,7 +43,13 @@ func Start() {
 					}
 				}
 			} else {
-				standard.Standard(userInputString)
+				// fmt.Println(os.Args[1][9:])
+
+				// helpers.GenerateFile((input, os.Args[1])[9:])
+				banner := standard.Standard(userInputString)
+				outputStr := CompileBannerString(banner)
+				helpers.GenerateFile(outputStr, os.Args[1][9:])
+
 			}
 		case "shadow":
 			shadow.Shadow(userInputString)
@@ -54,4 +61,15 @@ func Start() {
 		fmt.Println("Please enter an argument with or without a font trigger")
 		return
 	}
+}
+
+func CompileBannerString(banner []string) string {
+	compiledString := ""
+	for i, line := range banner {
+		if i != 0 || i != (len(banner)+1) {
+			compiledString += "\n"
+		}
+		compiledString += line
+	}
+	return compiledString
 }

@@ -3,7 +3,6 @@ package standard
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
 )
 
@@ -105,11 +104,7 @@ var standardDictionary = map[string]int{
 	"~":  847,
 }
 
-func Standard(input string) {
-	// fmt.Println(input, "STANDARD")
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	// cmd.Run()
+func Standard(input string) []string {
 	fileStream, err := os.ReadFile("standard/standard.txt")
 	if err != nil {
 		fmt.Println(err)
@@ -136,12 +131,14 @@ func Standard(input string) {
 		outputRow8 += standardLetters[standardDictionary[string(input[i])]+7]
 	}
 
-	fmt.Println(outputRow1)
-	fmt.Println(outputRow2)
-	fmt.Println(outputRow3)
-	fmt.Println(outputRow4)
-	fmt.Println(outputRow5)
-	fmt.Println(outputRow6)
-	fmt.Println(outputRow7)
-	fmt.Println(outputRow8)
+	// fmt.Println(outputRow1)
+	// fmt.Println(outputRow2)
+	// fmt.Println(outputRow3)
+	// fmt.Println(outputRow4)
+	// fmt.Println(outputRow5)
+	// fmt.Println(outputRow6)
+	// fmt.Println(outputRow7)
+	// fmt.Println(outputRow8)
+	output := []string{outputRow1, outputRow2, outputRow3, outputRow4, outputRow5, outputRow6, outputRow7, outputRow8}
+	return output
 }

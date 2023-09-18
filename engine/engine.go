@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
+
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/banners"
-	
+	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
 )
 
 func Start() {
@@ -30,31 +30,30 @@ func Start() {
 				userSelectedBanner = "thinkertoy"
 			}
 		}
-
-		switch userSelectedBanner {
-		case "standard":
-			var outputStr string
-			var multilineBanner []string
-			if helpers.ContainsNewLine(userInputString) {
-				lines := strings.Split(userInputString, "\\n")
-				for _, line := range lines {
-					if line != "\\n" {
-						banner := banners.EncodeText(line, "standard")
+		var outputStr string
+		var multilineBanner []string
+		if helpers.ContainsNewLine(userInputString) {
+			lines := strings.Split(userInputString, "\\n")
+			for _, line := range lines {
+				if line != "\\n" {
+					if userSelectedBanner == "shadow" {
+						banner := banners.EncodeText(line, userSelectedBanner)
+						multilineBanner = append(multilineBanner, banner...)
+					} else if userSelectedBanner == "thinkertoy" {
+						banner := banners.EncodeText(line, userSelectedBanner)
+						multilineBanner = append(multilineBanner, banner...)
+					} else {
+						banner := banners.EncodeText(line, userSelectedBanner)
 						multilineBanner = append(multilineBanner, banner...)
 					}
 				}
-				outputStr = helpers.CompileBannerString(multilineBanner)
-			} else {
-				banner := banners.EncodeText(userInputString, "standard")
-				outputStr = helpers.CompileBannerString(banner)
 			}
-
-			helpers.GenerateFile(outputStr, os.Args[1][9:])
-		case "shadow":
-			banners.EncodeText(userInputString, "shadow")
-		case "thinkertoy":
-			banners.EncodeText(userInputString, "thinkertoy")
+			outputStr = helpers.CompileBannerString(multilineBanner)
+		} else {
+			banner := banners.EncodeText(userInputString, userSelectedBanner)
+			outputStr = helpers.CompileBannerString(banner)
 		}
+		helpers.GenerateFile(outputStr, userSelectedOption)
 		fmt.Println(userSelectedOption)
 	} else {
 		fmt.Println("Please enter an argument with or without a font trigger")

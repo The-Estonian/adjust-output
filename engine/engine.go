@@ -6,6 +6,7 @@ import (
 	"strings"
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/banners"
+	
 )
 
 func Start() {
@@ -52,7 +53,7 @@ func Start() {
 		case "shadow":
 			banners.EncodeText(userInputString, "shadow")
 		case "thinkertoy":
-			banners.EncodeText(userInputString, "tinkertoy")
+			banners.EncodeText(userInputString, "thinkertoy")
 		}
 		fmt.Println(userSelectedOption)
 	} else {

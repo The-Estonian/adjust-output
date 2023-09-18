@@ -45,10 +45,10 @@ func Start() {
 						multilineBanner = append(multilineBanner, banner...)
 					}
 				}
-				outputStr = CompileBannerString(multilineBanner)
+				outputStr = helpers.CompileBannerString(multilineBanner)
 			} else {
 				banner := standard.Standard(userInputString)
-				outputStr = CompileBannerString(banner)
+				outputStr = helpers.CompileBannerString(banner)
 			}
 
 			helpers.GenerateFile(outputStr, os.Args[1][9:])
@@ -62,15 +62,4 @@ func Start() {
 		fmt.Println("Please enter an argument with or without a font trigger")
 		return
 	}
-}
-
-func CompileBannerString(banner []string) string {
-	compiledString := ""
-	for i, line := range banner {
-		if i != 0 || i != (len(banner)+1) {
-			compiledString += "\n"
-		}
-		compiledString += line
-	}
-	return compiledString
 }

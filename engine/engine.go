@@ -1,68 +1,113 @@
 package engine
 
 import (
-	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/banners"
-	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
 	"os"
 	"strings"
-	"fmt"
+
+	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/banners"
+	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
 )
 
+type options struct {
+	basic      bool
+	text       string
+	banner     string
+	filename   string
+	inputError bool
+}
+
 func Start() {
-	if len(os.Args) > 1 {
-		userSelectedOption := ""
-		userSelectedBanner := "standard"
-		userInputString := ""
-		fmt.Println(os.Args)
-		if len(os.Args) == 2 {
-			userInputString = os.Args[1]
-			banners.PrintText(userInputString, userSelectedBanner)
-		} else if len(os.Args) == 3 && !strings.HasPrefix(os.Args[2], "--output="){
-			userInputString = os.Args[1]
-			userSelectedBanner := os.Args[2]
-			banners.PrintText(userInputString, userSelectedBanner)
+	userInput := handleUserInput(os.Args)
+	if userInput.inputError == true {
+		helpers.LaunchError()
+	}
+	if userInput.basic == true {
+		// $ go run . "Your Text"
+		if helpers.ContainsNewLine(userInput.text) {
+			banners.PrintMultilineText(userInput.text, userInput.banner)
 		} else {
-			userInputString = os.Args[2]
-			for i := 0; i < len(os.Args); i++ {
-				if strings.HasPrefix(os.Args[i], "--output=") {
-					userSelectedOption = os.Args[1][9:]
-				} else if strings.HasPrefix(os.Args[i], "standard") {
-					userSelectedBanner = "standard"
-				} else if strings.HasPrefix(os.Args[i], "shadow") {
-					userSelectedBanner = "shadow"
-				} else if strings.HasPrefix(os.Args[i], "thinkertoy") {
-					userSelectedBanner = "thinkertoy"
-				}
+			banners.PrintText(userInput.text, userInput.banner)
+		}
+	} else if userInput.basic == false && len(os.Args) == 3 {
+		// $ go run . "Your Text" <standard|shadow|thinkertoy>
+		if helpers.ContainsNewLine(userInput.text) {
+			banners.PrintMultilineText(userInput.text, userInput.banner)
+		} else {
+			banners.PrintText(userInput.text, userInput.banner)
+		}
+	} else if userInput.basic == false && len(os.Args) == 4 {
+		// $ go run . --output=test.txt "Your Text" <standard|shadow|thinkertoy>
+		if helpers.ContainsNewLine(userInput.text) {
+			bannerStr := GetMultilineBannerStr(userInput.text, userInput.banner)
+			if len(bannerStr) > 0 {
+				helpers.GenerateFile(bannerStr, userInput.filename)
 			}
-			var outputStr string
-			var multilineBanner []string
-			if helpers.ContainsNewLine(userInputString) {
-				lines := strings.Split(userInputString, "\\n")
-				for _, line := range lines {
-					if line != "\\n" {
-						if userSelectedBanner == "shadow" {
-							banner := banners.EncodeText(line, userSelectedBanner)
-							multilineBanner = append(multilineBanner, banner...)
-						} else if userSelectedBanner == "thinkertoy" {
-							banner := banners.EncodeText(line, userSelectedBanner)
-							multilineBanner = append(multilineBanner, banner...)
-						} else {
-							banner := banners.EncodeText(line, userSelectedBanner)
-							multilineBanner = append(multilineBanner, banner...)
-						}
-					}
-				}
-				outputStr = helpers.CompileBannerString(multilineBanner)
-			} else {
-				banner := banners.EncodeText(userInputString, userSelectedBanner)
-				outputStr = helpers.CompileBannerString(banner)
-			}
+		} else {
+			bannerArr := banners.EncodeText(userInput.text, userInput.banner)
+			outputStr := helpers.CompileBannerString(bannerArr)
 			if len(outputStr) > 0 {
-				helpers.GenerateFile(outputStr, userSelectedOption)
+				helpers.GenerateFile(outputStr, userInput.filename)
 			}
 		}
-	} else {
-		helpers.LaunchError()
-		return
 	}
+}
+
+func GetMultilineBannerStr(input string, userBanner string) string {
+	var multilineBanner []string
+	lines := strings.Split(input, "\\n")
+	for _, line := range lines {
+		banner := banners.EncodeText(line, userBanner)
+		multilineBanner = append(multilineBanner, banner...)
+	}
+	outputStr := helpers.CompileBannerString(multilineBanner)
+	return outputStr
+}
+
+func handleUserInput(args []string) options {
+	var options options
+	args = args[1:]
+	if len(args) == 1 {
+		// $ go run . "Your Text"
+		options.inputError = false
+		options.basic = true
+		options.text = args[0]
+		options.banner = "standard"
+
+		if strings.Contains(options.text, "--output=") {
+			options.inputError = true
+			return options
+		}
+	} else if len(args) == 2 {
+		// $ go run . "Your Text" <standard|shadow|thinkertoy>
+		options.inputError = false
+		options.basic = false
+		options.text = args[0]
+		if args[1] == "standard" || args[1] == "shadow" || args[1] == "thinkertoy" {
+			options.banner = args[1]
+		} else {
+			options.inputError = true
+			return options
+		}
+	} else if len(args) == 3 {
+		// $ go run . --output=filename.txt "Your Text" <standard|shadow|thinkertoy>
+		if !strings.Contains(args[0], "--output=") {
+			options.inputError = true
+			return options
+		}
+		options.inputError = false
+		options.basic = false
+		options.filename = args[0][9:]
+		options.text = args[1]
+		if args[2] == "standard" || args[2] == "shadow" || args[2] == "thinkertoy" {
+			options.banner = args[2]
+		} else {
+			options.inputError = true
+			return options
+		}
+		options.banner = args[2]
+	} else if len(args) > 3 {
+		options.inputError = true
+		return options
+	}
+	return options
 }

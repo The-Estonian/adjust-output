@@ -15,3 +15,5 @@ Usage: go run . [OPTION] [STRING] [BANNER]
 EX: go run . --output=<fileName.txt> something standard
 
 ```
+
+Authors: Jaanus Saar, Chris Laks, Usman Wani

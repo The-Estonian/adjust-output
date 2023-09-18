@@ -16,4 +16,4 @@ EX: go run . --output=<fileName.txt> something standard
 
 ```
 
-Authors: Jaanus Saar, Chris Laks, Usman Wani
+Authors: [Jaanus Saar](https://01.kood.tech/git/jsaar), [Chris Laks]()https://01.kood.tech/git/claks, [Usman Wani](https://01.kood.tech/git/uwani)

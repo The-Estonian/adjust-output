@@ -7,6 +7,8 @@ import (
 	"01.kood.tech/git/jsaar/go-reloaded/ascii-art/helpers"
 )
 
+
+// starts the ENGINE!, handles input, parses it and prints it to the console or file
 func Start() {
 	userInput := HandleUserInput(os.Args)
 	if userInput.inputError == true {

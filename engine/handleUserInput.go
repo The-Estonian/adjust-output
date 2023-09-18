@@ -12,6 +12,7 @@ type options struct {
 	inputError bool
 }
 
+// Parses and validates Command line arguments(os.Args) and returns options struct
 func HandleUserInput(args []string) options {
 	var options options
 	args = args[1:]

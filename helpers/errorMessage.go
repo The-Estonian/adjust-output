@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+//prints out error message in console
 func LaunchError() {
 	fmt.Println(`
 Usage: go run . [OPTION] [STRING] [BANNER]

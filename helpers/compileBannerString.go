@@ -1,5 +1,7 @@
 package helpers
 
+
+// Compiles a slice of string into a string seperated by new-line chars
 func CompileBannerString(banner []string) string {
 	compiledString := ""
 	for i, line := range banner {

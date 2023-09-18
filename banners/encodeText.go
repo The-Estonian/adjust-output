@@ -104,6 +104,8 @@ var encodeDictionary = map[string]int{
 	"~":  847,
 }
 
+
+// returns encoded text as an string array
 func EncodeText(input string, trigger string) []string {
 	fileStream, err := os.ReadFile("banners/" + trigger + ".txt")
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+//returns multiline string for encoding with or without newLine in string
 func GetMultilineBannerStr(input string, userBanner string) string {
 	var multilineBanner []string
 	lines := strings.Split(input, "\\n")

@@ -1,6 +1,4 @@
-To audit the program, find the steps [here](https://github.com/01-edu/public/tree/master/subjects/ascii-art/output/audit)
-
-# Text to ASCII Art Converter
+# Text to Adjust Art Convert
 
 ## Project Description
 
@@ -8,7 +6,7 @@ A program which consists in receiving a string as an argument and outputting the
 
 ## How to Run the Project
 
-To use the ASCII Art Converter input this in your Terminal:
+To use the Text to Adjust Art Converter input this in your Terminal:
 ```bash
 Usage: go run . [OPTION] [STRING] [BANNER]
 
